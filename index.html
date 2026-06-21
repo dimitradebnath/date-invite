@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="en">
    <head>
       <meta charset="UTF-8">
@@ -246,14 +246,18 @@
       // Initialize calendar constraint starting from today in 2026 dynamically
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('datePicker').setAttribute('min', today);
-      function nextPage(pageNum) {
-      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-      if(pageNum === 'ThankYou') {
-      document.getElementById('pageThankYou').classList.add('active');
-      } else {
-      document.getElementById(`page${pageNum}`).classList.add('active');
-      }
-      }
+      
+	  function nextPage(pageNum) {
+    document.querySelectorAll('.page').forEach(page =>
+        page.classList.remove('active')
+    );
+
+    if (pageNum === 'ThankYou') {
+        document.getElementById('pageThankYou').classList.add('active');
+    } else {
+        document.getElementById(`page${pageNum}`).classList.add('active');
+    }
+}
       function disableNoButton() {
       const noBtn = document.getElementById('noBtn');
       noBtn.innerText = "Nice try! 😉";
