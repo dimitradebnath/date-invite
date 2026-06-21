@@ -283,23 +283,46 @@
       nextBtn.style.display = 'none';
       }
       }
-      function submitAll() {
-      const place = document.getElementById('placeInput').value.trim();
-      dateData.favoritePlace = place || "A surprise spot!";
-      const submitBtn = document.getElementById('submitBtn');
-      submitBtn.innerText = "Sending... ✨";
-      submitBtn.disabled = true;
-      fetch(FORMSPREE_URL, {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-      "Going on a Date?": "YES! ❤️",
-      "Chosen Date": dateData.dateSelected,
-      "Food Cravings": dateData.cravings.join(', '),
-      "Favorite Hangout Place": dateData.favoritePlace})}).then(response => {nextPage('ThankYou');
-      }).catch(error => {
-      console.error('Error sending response:', error);
-      nextPage('ThankYou');});}
+      async function submitAll() {
+    const place = document.getElementById('placeInput').value.trim();
+
+    dateData.favoritePlace = place || "A surprise spot!";
+
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.innerText = "Sending... ✨";
+    submitBtn.disabled = true;
+
+    try {
+
+        const response = await fetch(FORMSPREE_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                date: dateData.dateSelected,
+                cravings: dateData.cravings.join(", "),
+                favoritePlace: dateData.favoritePlace,
+                response: "YES ❤️"
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error("Form submission failed");
+        }
+
+        nextPage("ThankYou");
+
+    } catch (error) {
+
+        console.error(error);
+
+        submitBtn.innerText = "Try Again";
+        submitBtn.disabled = false;
+
+        alert(
+            "Unable to submit your response. Please check your internet connection and try again."
+        );
+    }
+}
