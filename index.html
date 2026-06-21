@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>A Special Invitation ✨</title>
+      <style>
+         :root {
+         --primary: #ff477e;
+         --primary-hover: #ff2a63;
+         --bg: #fff0f3;
+         --card-bg: #ffffff;
+         --text: #2b2d42;
+         }
+         * {
+         box-sizing: border-box;
+         margin: 0;
+         padding: 0;
+         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+         }
+         body {
+         background-color: var(--bg);
+         color: var(--text);
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         min-height: 100vh;
+         overflow-x: hidden;
+         }
+         .container {
+         width: 100%;
+         max-width: 450px;
+         padding: 25px;
+         background: var(--card-bg);
+         border-radius: 20px;
+         box-shadow: 0 10px 30px rgba(255, 71, 126, 0.15);
+         text-align: center;
+         position: relative;
+         min-height: 500px;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         }
+         .page {
+         display: none;
+         animation: fadeIn 0.5s ease forwards;
+         }
+         .page.active {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         gap: 20px;
+         }
+         @keyframes fadeIn {
+         from { opacity: 0; transform: translateY(10px); }
+         to { opacity: 1; transform: translateY(0); }
+         }
+         h1 {
+         font-size: 1.8rem;
+         color: var(--text);
+         margin-bottom: 10px;
+         }
+         p {
+         font-size: 1rem;
+         color: #6c757d;
+         }
+         /* Common Buttons */
+         .btn {
+         padding: 12px 30px;
+         border: none;
+         border-radius: 50px;
+         font-size: 1rem;
+         font-weight: 600;
+         cursor: pointer;
+         transition: all 0.2s ease;
+         }
+         .btn-primary {
+         background-color: var(--primary);
+         color: white;
+         box-shadow: 0 4px 15px rgba(255, 71, 126, 0.3);
+         }
+         .btn-primary:hover {
+         background-color: var(--primary-hover);
+         transform: scale(1.05);
+         }
+         /* Page 1 Specifics */
+         .p1-btns {
+         display: flex;
+         gap: 15px;
+         margin-top: 20px;
+         width: 100%;
+         justify-content: center;
+         }
+         #noBtn {
+         background-color: #e0e0e0;
+         color: #757575;
+         }
+         #noBtn:disabled {
+         background-color: #ffe5ec;
+         color: #ff477e;
+         cursor: not-allowed;
+         border: 1px dashed var(--primary);
+         transform: none !important;
+         }
+         /* Page 2 Specifics (Calendar) */
+         input[type="date"] {
+         padding: 12px;
+         border: 2px solid #ffccd5;
+         border-radius: 10px;
+         font-size: 1.1rem;
+         outline: none;
+         color: var(--text);
+         cursor: pointer;
+         width: 80%;
+         text-align: center;
+         }
+         input[type="date"]:focus {
+         border-color: var(--primary);
+         }
+         /* Page 3 Specifics (Grid Layout) */
+         .grid {
+         display: grid;
+         grid-template-columns: repeat(3, 1fr);
+         gap: 12px;
+         width: 100%;
+         margin-top: 10px;
+         }
+         .grid-item {
+         background: #fff0f3;
+         border: 2px solid transparent;
+         border-radius: 15px;
+         padding: 15px 10px;
+         cursor: pointer;
+         transition: all 0.2s ease;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         gap: 8px;
+         }
+         .grid-item:hover {
+         transform: translateY(-3px);
+         box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+         }
+         .grid-item.selected {
+         background-color: #ffe5ec;
+         border-color: var(--primary);
+         transform: scale(1.02);
+         }
+         .icon {
+         font-size: 1.8rem;
+         }
+         .label {
+         font-size: 0.85rem;
+         font-weight: 600;
+         }
+         /* Page 4 Specifics */
+         .input-group {
+         width: 100%;
+         display: flex;
+         flex-direction: column;
+         gap: 10px;
+         }
+         input[type="text"] {
+         width: 100%;
+         padding: 15px;
+         border: 2px solid #ffccd5;
+         border-radius: 12px;
+         font-size: 1rem;
+         outline: none;
+         }
+         input[type="text"]:focus {
+         border-color: var(--primary);
+         }
+         /* Thank you Page */
+         .heart {
+         font-size: 4rem;
+         animation: pulse 1.2s infinite;
+         }
+         @keyframes pulse {
+         0% { transform: scale(1); }
+         50% { transform: scale(1.15); }
+         100% { transform: scale(1); }
+         }
+      </style>
+   </head>
+   <body>
+      <div class="container">
+         <!-- Page 1 -->
+         <div id="page1" class="page active">
+            <h1>So... will you go on a date with me? 🌹</h1>
+            <p>Choose wisely! 😉</p>
+            <div class="p1-btns">
+               <button id="yesBtn" class="btn btn-primary" onclick="nextPage(2)">Yes!</button>
+               <button id="noBtn" class="btn" onclick="disableNoButton()">No</button>
+            </div>
+         </div>
+         <!-- Page 2 -->
+         <div id="page2" class="page">
+            <h1>Excellent choice! Let's pick a day. 🗓️</h1>
+            <p>Select a date to see when you're free:</p>
+            <input type="date" id="datePicker" onchange="checkDateSelection()">
+            <button id="dateNextBtn" class="btn btn-primary" style="display:none; margin-top:15px;" onclick="nextPage(3)">Next →</button>
+         </div>
+         <!-- Page 3 -->
+         <div id="page3" class="page">
+            <h1>What are we craving? 🍕☕</h1>
+            <p>Pick your favorites (Select multiple!):</p>
+            <div class="grid">
+               <div class="grid-item" onclick="toggleFood(this, 'Coffee')"><span class="icon">☕</span><span class="label">Coffee</span></div>
+               <div class="grid-item" onclick="toggleFood(this, 'Tea')"><span class="icon">🫖</span><span class="label">Tea</span></div>
+               <div class="grid-item" onclick="toggleFood(this, 'Kebabs')"><span class="icon">🍡</span><span class="label">Kebabs</span></div>
+               <div class="grid-item" onclick="toggleFood(this, 'Biriyani')"><span class="icon">🍛</span><span class="label">Biriyani</span></div>
+               <div class="grid-item" onclick="toggleFood(this, 'Fuchka')"><span class="icon">🥔</span><span class="label">Fuchka</span></div>
+               <div class="grid-item" onclick="toggleFood(this, 'Pizza')"><span class="icon">🍕</span><span class="label">Pizza</span></div>
+               <div class="grid-item" onclick="toggleFood(this, 'Chowmein')"><span class="icon">🥢</span><span class="label">Chowmein</span></div>
+               <div class="grid-item" onclick="toggleFood(this, 'Rolls')"><span class="icon">🌯</span><span class="label">Rolls</span></div>
+               <div class="grid-item" onclick="toggleFood(this, 'Juice Bar')"><span class="icon">🍹</span><span class="label">Juice Bar</span></div>
+            </div>
+            <button id="foodNextBtn" class="btn btn-primary" style="display:none; width: 100%; margin-top:15px;" onclick="nextPage(4)">Next →</button>
+         </div>
+         <!-- Page 4 -->
+         <div id="page4" class="page">
+            <h1>One last thing... 🗺️</h1>
+            <div class="input-group">
+               <p>Type the name of your absolute favorite place to hang out:</p>
+               <input type="text" id="placeInput" placeholder="e.g., That cute rooftop cafe, or secret spot...">
+            </div>
+            <button id="submitBtn" class="btn btn-primary" style="width: 100%; margin-top:10px;" onclick="submitAll()">Lock It In! ✨</button>
+         </div>
+         <!-- Thank You Page -->
+         <div id="pageThankYou" class="page">
+            <div class="heart">❤️</div>
+            <h1>It's a date!</h1>
+            <p>Can't wait to see you. Thank you! ✨</p>
+         </div>
+      </div>
+      <script>
+      // PASTE YOUR UNIQUE FORMSPREE LINK IN THE QUOTES BELOW:
+      const FORMSPREE_URL = "https://formspree.io/f/mqevzqyy";
+      let dateData = {
+      dateSelected: '',
+      cravings: [],
+      favoritePlace: ''
+      };
+      // Initialize calendar constraint starting from today in 2026 dynamically
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('datePicker').setAttribute('min', today);
+      function nextPage(pageNum) {
+      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+      if(pageNum === 'ThankYou') {
+      document.getElementById('pageThankYou').classList.add('active');
+      } else {
+      document.getElementById(`page${pageNum}`).classList.add('active');
+      }
+      }
+      function disableNoButton() {
+      const noBtn = document.getElementById('noBtn');
+      noBtn.innerText = "Nice try! 😉";
+      noBtn.disabled = true;
+      }
+      function checkDateSelection() {
+      const dateVal = document.getElementById('datePicker').value;
+      if(dateVal) {
+      dateData.dateSelected = dateVal;
+      document.getElementById('dateNextBtn').style.display = 'inline-block';
+      }
+      }
+      function toggleFood(element, foodName) {
+      element.classList.toggle('selected');
+      const index = dateData.cravings.indexOf(foodName);
+      if (index > -1) {
+      dateData.cravings.splice(index, 1);
+      } 
+      else {
+      dateData.cravings.push(foodName);
+      }
+      const nextBtn = document.getElementById('foodNextBtn');
+      if(dateData.cravings.length > 0) {
+      nextBtn.style.display = 'block';
+      } 
+      else {
+      nextBtn.style.display = 'none';
+      }
+      }
+      function submitAll() {
+      const place = document.getElementById('placeInput').value.trim();
+      dateData.favoritePlace = place || "A surprise spot!";
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.innerText = "Sending... ✨";
+      submitBtn.disabled = true;
+      fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+      "Going on a Date?": "YES! ❤️",
+      "Chosen Date": dateData.dateSelected,
+      "Food Cravings": dateData.cravings.join(', '),
+      "Favorite Hangout Place": dateData.favoritePlace})}).then(response => {nextPage('ThankYou');
+      }).catch(error => {
+      console.error('Error sending response:', error);
+      nextPage('ThankYou');});}
